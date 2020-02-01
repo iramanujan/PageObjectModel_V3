@@ -7,7 +7,6 @@ using Orange.HRM.TestHarness.Steps.Login;
 namespace Orange.HRM.Test.Login
 {
     [TestFixture]
-
     public class Login : OrangeHrmBaseTest
     {
         private LoginStep ObjLoginStep;

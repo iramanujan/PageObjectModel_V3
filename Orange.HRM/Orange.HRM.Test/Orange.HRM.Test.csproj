@@ -72,13 +72,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseSetup\OneTimeAssemblySetUp.cs" />
     <Compile Include="BaseSetup\OrangeHrmBaseTest.cs" />
     <Compile Include="Login\Login.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="allureConfig.json" />
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -93,7 +91,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="config.xml" />
     <Content Include="Extent-config.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

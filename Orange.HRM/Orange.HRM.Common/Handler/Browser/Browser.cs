@@ -235,17 +235,40 @@ namespace Orange.HRM.Common.Handler.Browser
 
         public void CleanupCreatedDirectoriesSafely()
         {
-            StepsExecutor.ExecuteSafely(() => Directory.CreateDirectory(GetDownloadPath()));
-            StepsExecutor.ExecuteSafely(() => Directory.CreateDirectory(GetUploadPath()));
+            StepsExecutor.ExecuteSafely(() => Directory.Delete(GetDownloadPath(),true));
+            StepsExecutor.ExecuteSafely(() => Directory.Delete(GetUploadPath(), true));
             
         }
 
         public void CreateUploadDwonloadDirectory()
         {
-            CleanupCreatedDirectoriesSafely();
-            StepsExecutor.ExecuteSafely(() => Directory.Delete(GetDownloadPath(), true));
-            StepsExecutor.ExecuteSafely(() => Directory.Delete(GetUploadPath(), true));
-            CleanupCreatedDirectoriesSafely();
+            StepsExecutor.ExecuteSafely(() => Directory.CreateDirectory(GetDownloadPath()));
+            StepsExecutor.ExecuteSafely(() => Directory.CreateDirectory(GetUploadPath()));
+        }
+
+        public void CloseAllBrosr()
+        {
+            Quit();
+            switch (appConfigMember.Browser)
+            {
+                case BrowserType.IE:
+                    //Killing IE driver process if exists
+                    ProcessUtils.KillProcesses("iexplore");
+                    ProcessUtils.KillProcesses("IEDriverServer");
+                    break;
+                case BrowserType.Chrome:
+                    ProcessUtils.KillProcesses("chrome");
+                    ProcessUtils.KillProcesses("chromedriver");
+                    ProcessUtils.KillProcesses("chrome.exe");
+                    ProcessUtils.KillProcesses("chromedriver.exe");
+                    break;
+                case BrowserType.Firefox:
+                    ProcessUtils.KillProcesses("firefox.exe");
+                    ProcessUtils.KillProcesses("geckodriver.exe");
+                    ProcessUtils.KillProcesses("firefox");
+                    ProcessUtils.KillProcesses("geckodriver");
+                    break;
+            }
         }
 
         #endregion

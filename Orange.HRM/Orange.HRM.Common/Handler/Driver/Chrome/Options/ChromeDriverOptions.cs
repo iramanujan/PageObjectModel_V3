@@ -23,6 +23,13 @@ namespace WebDriverHelper.DriverFactory.Chrome.Options
             options.AddArgument("--disable-default-apps");
             options.AddArgument("test-type=browser");
             options.AddArgument("disable-infobars");
+            options.AddExcludedArgument("enable-automation");
+            options.AddAdditionalCapability("useAutomationExtension", false);
+
+
+            ////
+            ///https://peter.sh/experiments/chromium-command-line-switches/
+            ///
 
             if (appConfigMember.NoCache)
             {

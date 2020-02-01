@@ -23,12 +23,13 @@ namespace Orange.HRM.Test.BaseSetup
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            
+            ExecuteSafely(myContext.Browser.CreateUploadDwonloadDirectory);
         }
 
         [SetUp]
         public void OrangeHrmBaseTestOneTimeSetUp()
         {
+            ExecuteSafely(myContext.Browser.CreateUploadDwonloadDirectory);
             myContext.Browser.InitBrowser(appConfigMember.Url);
             ObjReport.CreateTest(TestContext.CurrentContext.Test.Name);
         }
@@ -45,27 +46,7 @@ namespace Orange.HRM.Test.BaseSetup
                 ObjReport.Warning(TestContext.CurrentContext.Test.MethodName);
             }
             ExecuteSafely(myContext.Browser.CleanupCreatedDirectoriesSafely);
-            ExecuteSafely(myContext.Browser.Quit);
-            switch (appConfigMember.Browser)
-            {
-                case BrowserType.IE:
-                    //Killing IE driver process if exists
-                    ProcessUtils.KillProcesses("iexplore");
-                    ProcessUtils.KillProcesses("IEDriverServer");
-                    break;
-                case BrowserType.Chrome:
-                    ProcessUtils.KillProcesses("chrome");
-                    ProcessUtils.KillProcesses("chromedriver");
-                    ProcessUtils.KillProcesses("chrome.exe");
-                    ProcessUtils.KillProcesses("chromedriver.exe");
-                    break;
-                case BrowserType.Firefox:
-                    ProcessUtils.KillProcesses("firefox.exe");
-                    ProcessUtils.KillProcesses("geckodriver.exe");
-                    ProcessUtils.KillProcesses("firefox");
-                    ProcessUtils.KillProcesses("geckodriver");
-                    break;
-            }
+            myContext.Browser.CloseAllBrosr();
         }
         
         [OneTimeTearDown]
