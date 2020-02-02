@@ -5,7 +5,6 @@ using Orange.HRM.Common.Context;
 using Orange.HRM.Common.Helper;
 using System;
 using WebAutomation.Common.GenericHelper.ReportHandler;
-using static Orange.HRM.Common.Configuration.AppConfigMember;
 
 namespace Orange.HRM.Test.BaseSetup
 {
@@ -29,7 +28,7 @@ namespace Orange.HRM.Test.BaseSetup
         [SetUp]
         public void OrangeHrmBaseTestOneTimeSetUp()
         {
-            ExecuteSafely(myContext.Browser.CreateUploadDwonloadDirectory);
+            //ExecuteSafely(myContext.Browser.CreateUploadDwonloadDirectory);
             myContext.Browser.InitBrowser(appConfigMember.Url);
             ObjReport.CreateTest(TestContext.CurrentContext.Test.Name);
         }
@@ -45,14 +44,14 @@ namespace Orange.HRM.Test.BaseSetup
             {
                 ObjReport.Warning(TestContext.CurrentContext.Test.MethodName);
             }
-            ExecuteSafely(myContext.Browser.CleanupCreatedDirectoriesSafely);
+            //ExecuteSafely(myContext.Browser.CleanupCreatedDirectoriesSafely);
             myContext.Browser.CloseAllBrosr();
         }
         
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            ExecuteSafely(myContext.Browser.CleanupCreatedDirectoriesSafely);
+            //ExecuteSafely(myContext.Browser.CleanupCreatedDirectoriesSafely);
             ObjReport.ExtentReportsTearDown();
         }
 

@@ -1,13 +1,13 @@
 ﻿using OpenQA.Selenium;
+using Orange.HRM.Common.Configuration;
+using Orange.HRM.Common.Handler.Driver.Intrface;
+using Orange.HRM.Common.Handler.Log;
+using Orange.HRM.Common.Helper;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using Orange.HRM.Common.Configuration;
-using Orange.HRM.Common.Handler.Driver.Intrface;
 using WebAutomation.Common.GenericHelper.ReportHandler;
-using Orange.HRM.Common.Helper;
-using Orange.HRM.Common.Handler.Log;
 using static Orange.HRM.Common.Configuration.AppConfigMember;
 
 namespace Orange.HRM.Common.Handler.Browser
@@ -26,6 +26,7 @@ namespace Orange.HRM.Common.Handler.Browser
             CreateUploadDwonloadDirectory();
             this.webDriverFactory = webDriverFactory;
             ObjReport.ExtentReportsSetup();
+
         }
 
         public Browser(IWebDriver webDriver)
@@ -54,6 +55,7 @@ namespace Orange.HRM.Common.Handler.Browser
         {
             webDriver.Navigate().GoToUrl(url);
             WaitTillPageLoad(webDriver);
+            Maximize();
             webDriver.SwitchTo().DefaultContent();
             return this;
         }
@@ -69,7 +71,7 @@ namespace Orange.HRM.Common.Handler.Browser
             this.webDriver.Manage().Window.Maximize();
             return this;
         }
-        
+
         public Browser Forward()
         {
             this.webDriver.Navigate().Forward();
@@ -235,9 +237,9 @@ namespace Orange.HRM.Common.Handler.Browser
 
         public void CleanupCreatedDirectoriesSafely()
         {
-            StepsExecutor.ExecuteSafely(() => Directory.Delete(GetDownloadPath(),true));
+            StepsExecutor.ExecuteSafely(() => Directory.Delete(GetDownloadPath(), true));
             StepsExecutor.ExecuteSafely(() => Directory.Delete(GetUploadPath(), true));
-            
+
         }
 
         public void CreateUploadDwonloadDirectory()
@@ -271,6 +273,15 @@ namespace Orange.HRM.Common.Handler.Browser
             }
         }
 
+        public string GetTitle()
+        {
+            return this.webDriver.Title;
+        }
+
+        public void CloseTab()
+        {
+            this.webDriver.Close();
+        }
         #endregion
 
         #region Properties

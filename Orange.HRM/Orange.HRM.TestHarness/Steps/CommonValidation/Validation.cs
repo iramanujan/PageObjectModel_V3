@@ -1,6 +1,4 @@
-﻿using OpenQA.Selenium.Support.UI;
-using Orange.HRM.Common.Handler.Log;
-using Orange.HRM.TestHarness.Steps.BaseSetup;
+﻿using Orange.HRM.TestHarness.Steps.BaseSetup;
 using System;
 using WebAutomation.Common.Wait;
 

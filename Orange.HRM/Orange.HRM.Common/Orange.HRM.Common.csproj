@@ -101,11 +101,15 @@
     <Reference Include="WebDriver, Version=3.141.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Selenium.WebDriver.3.141.0\lib\net45\WebDriver.dll</HintPath>
     </Reference>
+    <Reference Include="WebDriver.Support, Version=3.141.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Selenium.Support.3.141.0\lib\net45\WebDriver.Support.dll</HintPath>
+    </Reference>
     <Reference Include="XnaFan.ImageComparison, Version=2.0.4.0, Culture=neutral, PublicKeyToken=ce5ccd6a9e11ca21, processorArchitecture=MSIL">
       <HintPath>..\packages\ImageComparison.2.0.4\lib\net45\XnaFan.ImageComparison.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\StringValueAttribute.cs" />
     <Compile Include="Configuration\AppConfigHandler.cs" />
     <Compile Include="Configuration\AppConfigMember.cs" />
     <Compile Include="Configuration\AppConfigReader.cs" />
@@ -115,6 +119,9 @@
     <Compile Include="Context\BrowserContext.cs" />
     <Compile Include="Context\TestHarnessContext.cs" />
     <Compile Include="Context\TestHarnessContextHelper.cs" />
+    <Compile Include="Extensions\StringValueExtensions.cs" />
+    <Compile Include="Handler\ActionEvent\KeyboardEvents.cs" />
+    <Compile Include="Handler\ActionEvent\MouseEvents.cs" />
     <Compile Include="Handler\Attributes\AttributeHelper.cs" />
     <Compile Include="Handler\Attributes\EnumAttribute.cs" />
     <Compile Include="Handler\Attributes\StringValueAttribute.cs" />
@@ -137,8 +144,17 @@
     <Compile Include="Handler\Driver\Intrface\IBaseBrowser.cs" />
     <Compile Include="Handler\Driver\Intrface\IWebDriverFactory.cs" />
     <Compile Include="Handler\Driver\WebDriverType.cs" />
+    <Compile Include="Handler\HtmlElement\Element\HtmlButton.cs" />
+    <Compile Include="Handler\HtmlElement\Element\HtmlCheckBox.cs" />
+    <Compile Include="Handler\HtmlElement\Element\HtmlLink.cs" />
+    <Compile Include="Handler\HtmlElement\Element\HtmlRadioButton.cs" />
+    <Compile Include="Handler\HtmlElement\Element\HtmlSelect.cs" />
+    <Compile Include="Handler\HtmlElement\Element\HtmlTextBox.cs" />
+    <Compile Include="Handler\HtmlElement\HtmlElement.cs" />
+    <Compile Include="Handler\HtmlElement\TagAttributes.cs" />
     <Compile Include="Handler\Log\Logger.cs" />
     <Compile Include="Handler\Report\Report.cs" />
+    <Compile Include="Helper\AttributeUtils.cs" />
     <Compile Include="Helper\FileUtils.cs" />
     <Compile Include="Helper\Headspring\Enumeration.cs" />
     <Compile Include="Helper\HttpUtility.cs" />
@@ -150,6 +166,7 @@
     <Compile Include="Helper\StringUtils.cs" />
     <Compile Include="Helper\TimeUtil.cs" />
     <Compile Include="Helper\TimeZoneUtil.cs" />
+    <Compile Include="Helper\XMLUtils.cs" />
     <Compile Include="Helper\ZipUtils.cs" />
     <Compile Include="Location\Download\DownloadLocation.cs" />
     <Compile Include="Location\Upload\UploadLocation.cs" />
