@@ -18,5 +18,10 @@ namespace Orange.HRM.Common.Helper
         {
             return EndTime.Minutes - StartTime.Minutes;
         }
+
+        public static string GetTimeStamp()
+        {
+            return string.Format("{0:_yyyy_MM_dd_hh_mm_ss}", DateTime.Now);
+        }
     }
 }

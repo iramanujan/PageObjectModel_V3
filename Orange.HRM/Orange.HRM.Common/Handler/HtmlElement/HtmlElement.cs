@@ -234,5 +234,6 @@ namespace Orange.HRM.Common.Handler.HtmlElement
         {
             return this.webDriver.FindElements(by)[elementIndex];
         }
+
     }
 }

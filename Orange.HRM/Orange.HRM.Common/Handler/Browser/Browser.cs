@@ -1,13 +1,16 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using Orange.HRM.Common.Configuration;
 using Orange.HRM.Common.Handler.Driver.Intrface;
 using Orange.HRM.Common.Handler.Log;
 using Orange.HRM.Common.Helper;
+using Orange.HRM.Common.Wait;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using WebAutomation.Common.GenericHelper.ReportHandler;
+using WebAutomation.Common.Wait;
 using static Orange.HRM.Common.Configuration.AppConfigMember;
 
 namespace Orange.HRM.Common.Handler.Browser
@@ -15,6 +18,7 @@ namespace Orange.HRM.Common.Handler.Browser
     public class Browser : JavaScript, ITakesScreenshot, IWebDriver
     {
         protected new static readonly AppConfigMember appConfigMember = AppConfigReader.GetToolConfig();
+        private WaitExpectedConditions waitExpectedConditions = null;
         public Report ObjReport => Report.ReportInstance;
         private readonly IWebDriverFactory webDriverFactory;
         public IWebDriver objWebDriver;
@@ -23,10 +27,12 @@ namespace Orange.HRM.Common.Handler.Browser
         #region Constructor
         public Browser(IWebDriverFactory webDriverFactory)
         {
+            BackupReportAndLog();
+            CleanupCreatedDirectoriesSafely();
             CreateUploadDwonloadDirectory();
             this.webDriverFactory = webDriverFactory;
             ObjReport.ExtentReportsSetup();
-
+            waitExpectedConditions = new WaitExpectedConditions(webDriver);
         }
 
         public Browser(IWebDriver webDriver)
@@ -54,6 +60,7 @@ namespace Orange.HRM.Common.Handler.Browser
         public Browser InitBrowser(string url)
         {
             webDriver.Navigate().GoToUrl(url);
+            WaitTillAjaxLoad(webDriver);
             WaitTillPageLoad(webDriver);
             Maximize();
             webDriver.SwitchTo().DefaultContent();
@@ -114,33 +121,6 @@ namespace Orange.HRM.Common.Handler.Browser
         public string GetUploadPath()
         {
             return appConfigMember.RootUploadLocation;
-        }
-
-        public ReadOnlyCollection<string> GetWindowHandles()
-        {
-            return this.webDriver.WindowHandles;
-        }
-
-        public void SwitchToWindowHandle(string windowHandle)
-        {
-            webDriver.SwitchTo().Window(windowHandle);
-        }
-
-        public void SwitchHandleToNewWindowByPartialUrl(string urlPart)
-        {
-
-            if (GetDecodedUrl().Contains(urlPart)) { return; }
-            ReadOnlyCollection<string> handles = webDriver.WindowHandles;
-            foreach (string handle in handles.Reverse())
-            {
-                webDriver.SwitchTo().Window(handle);
-                if (GetDecodedUrl().Contains(urlPart))
-                {
-                    WaitTillPageLoad(webDriver);
-                    WaitTillAjaxLoad(webDriver);
-                    return;
-                }
-            }
         }
 
         public string GetDecodedUrl()
@@ -237,15 +217,56 @@ namespace Orange.HRM.Common.Handler.Browser
 
         public void CleanupCreatedDirectoriesSafely()
         {
-            StepsExecutor.ExecuteSafely(() => Directory.Delete(GetDownloadPath(), true));
-            StepsExecutor.ExecuteSafely(() => Directory.Delete(GetUploadPath(), true));
-
+            if (Directory.Exists(appConfigMember.AutomationLogPath))
+            {
+                StepsExecutor.ExecuteSafely(() => Directory.Delete(appConfigMember.AutomationLogPath, true));
+            }
+            if (Directory.Exists(appConfigMember.AutomationReportPath))
+            {
+                StepsExecutor.ExecuteSafely(() => Directory.Delete(appConfigMember.AutomationReportPath, true));
+            }
+            if (Directory.Exists(GetDownloadPath()))
+            {
+                StepsExecutor.ExecuteSafely(() => Directory.Delete(GetDownloadPath(), true));
+            }
+            if (Directory.Exists(GetUploadPath()))
+            {
+                StepsExecutor.ExecuteSafely(() => Directory.Delete(GetUploadPath(), true));
+            }
         }
 
         public void CreateUploadDwonloadDirectory()
         {
-            StepsExecutor.ExecuteSafely(() => Directory.CreateDirectory(GetDownloadPath()));
-            StepsExecutor.ExecuteSafely(() => Directory.CreateDirectory(GetUploadPath()));
+            if (!Directory.Exists(appConfigMember.AutomationLogPath))
+            {
+                StepsExecutor.ExecuteSafely(() => Directory.CreateDirectory(appConfigMember.AutomationLogPath));
+            }
+            if (!Directory.Exists(appConfigMember.AutomationReportPath))
+            {
+                StepsExecutor.ExecuteSafely(() => Directory.CreateDirectory(appConfigMember.AutomationReportPath));
+            }
+            if (!Directory.Exists(GetDownloadPath()))
+            {
+                StepsExecutor.ExecuteSafely(() => Directory.CreateDirectory(GetDownloadPath()));
+            }
+            if (!Directory.Exists(GetUploadPath()))
+            {
+                StepsExecutor.ExecuteSafely(() => Directory.CreateDirectory(GetUploadPath()));
+            }
+        }
+
+        public void BackupReportAndLog()
+        {
+            var newLogPath = appConfigMember.AutomationLogPath.Replace(appConfigMember.AutomationLogFolderName, appConfigMember.AutomationLogFolderName + TimeUtil.GetTimeStamp());
+            var newReportPath = appConfigMember.AutomationReportPath.Replace(appConfigMember.AutomationReportFolderName, appConfigMember.AutomationReportFolderName + TimeUtil.GetTimeStamp());
+            if (Directory.Exists(appConfigMember.AutomationLogPath))
+            {
+                StepsExecutor.ExecuteSafely(() => Directory.Move(appConfigMember.AutomationLogPath, newLogPath));
+            }
+            if (Directory.Exists(appConfigMember.AutomationReportPath))
+            {
+                StepsExecutor.ExecuteSafely(() => Directory.Move(appConfigMember.AutomationReportPath, newReportPath));
+            }
         }
 
         public void CloseAllBrosr()
@@ -282,6 +303,88 @@ namespace Orange.HRM.Common.Handler.Browser
         {
             this.webDriver.Close();
         }
+
+        #endregion
+
+        #region WindowHandle
+        public ReadOnlyCollection<string> GetWindowHandles()
+        {
+            return this.webDriver.WindowHandles;
+        }
+        public void SwitchToWindowHandle(string windowName)
+        {
+            waitExpectedConditions.WaitTillSwitchToWindowHandle(windowName);
+        }
+        public void SwitchHandleToNewWindowByPartialUrl(string urlPart)
+        {
+
+            if (GetDecodedUrl().Contains(urlPart))
+            {
+                return;
+            }
+            ReadOnlyCollection<string> handles = webDriver.WindowHandles;
+            foreach (string handle in handles.Reverse())
+            {
+                waitExpectedConditions.WaitTillSwitchToWindowHandle(handle);
+                if (GetDecodedUrl().Contains(urlPart))
+                {
+                    WaitTillPageLoad(webDriver);
+                    WaitTillAjaxLoad(webDriver);
+                    return;
+                }
+            }
+        }
+        #endregion
+
+        #region Frame
+        public IWebDriver SwitchToFrameByIndex(int frameIndex)
+        {
+            return waitExpectedConditions.WaitTillSwitchToFrameByIndex(frameIndex);
+        }
+        public IWebDriver SwitchToFrameByFrameName(string frameName)
+        {
+            return waitExpectedConditions.WaitTillSwitchToFrameByFrameName(frameName);
+        }
+        public IWebDriver SwitchToFrameByWebElement(IWebElement webElement)
+        {
+            return waitExpectedConditions.WaitTillSwitchToFrameByWebElement(webElement);
+        }
+        #endregion
+
+        #region Alert
+        public IAlert SwitchToAlert()
+        {
+            return waitExpectedConditions.WaitTillSwitchToAlert();
+        }
+        public void AcceptAlert(IAlert alert)
+        {
+            waitExpectedConditions.WaitTillAcceptAlert(alert);
+            SwitchTo().DefaultContent();
+        }
+        public void AcceptAlert(IAlert alert, string value)
+        {
+            waitExpectedConditions.WaitTillAcceptAlert(alert, value);
+            SwitchTo().DefaultContent();
+        }
+        public void DismissAlert(IAlert alert)
+        {
+            waitExpectedConditions.WaitTillDismissAlert(alert);
+            SwitchTo().DefaultContent();
+        }
+        public void DismissAlert(IAlert alert, string value)
+        {
+            waitExpectedConditions.WaitTillDismissAlert(alert, value);
+            SwitchTo().DefaultContent();
+        }
+        public void SendKeysAlert(IAlert alert, string value)
+        {
+            alert.SendKeys(value);
+            SwitchTo().DefaultContent();
+        }
+        public String GetAlertText(IAlert alert)
+        {
+            return alert.Text;
+        }
         #endregion
 
         #region Properties
@@ -313,4 +416,5 @@ namespace Orange.HRM.Common.Handler.Browser
         #endregion
 
     }
+
 }

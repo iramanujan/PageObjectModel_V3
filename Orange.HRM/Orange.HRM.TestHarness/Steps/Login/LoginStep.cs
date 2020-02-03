@@ -41,9 +41,9 @@ namespace Orange.HRM.TestHarness.Steps.Login
             validation.VerifyPageText(ObjLoginPage.pageSource);
             validation.VerifyPageUrl(ObjLoginPage.pageUrl);
             ObjReport.Info("Enter User Name and Password.");
-            ObjLoginPage.UserName.SendKeys(userName);
-            ObjLoginPage.Password.SendKeys(password);
-            ObjLoginPage.Login.Submit();
+            htmlTextBox.ClearAndSendKeys(ObjLoginPage.UserName, userName);
+            htmlTextBox.ClearAndSendKeys(ObjLoginPage.Password, password);
+            htmlButton.Submit(ObjLoginPage.Login);
             ObjReport.Info("Verify Page Url and Text after Login");
             validation.VerifyPageText(dashboardPage.pageSource);
             validation.VerifyPageUrl(dashboardPage.pageUrl);
@@ -54,9 +54,9 @@ namespace Orange.HRM.TestHarness.Steps.Login
             validation.VerifyPageText(ObjLoginPage.pageSource);
             validation.VerifyPageUrl(ObjLoginPage.pageUrl);
             ObjReport.Info("Enter User Name and Password.");
-            ObjLoginPage.UserName.SendKeys(userName);
-            ObjLoginPage.Password.SendKeys(password);
-            ObjLoginPage.Login.Submit();
+            htmlTextBox.ClearAndSendKeys(ObjLoginPage.UserName, userName);
+            htmlTextBox.ClearAndSendKeys(ObjLoginPage.Password, password);
+            htmlButton.Submit(ObjLoginPage.Login);
             ObjReport.Info("Verify Page Url and Text after Login");
             validation.VerifyPageText(ObjLoginPage.pageSource);
             validation.VerifyPageUrl(ObjLoginPage.pageUrl);
@@ -84,25 +84,25 @@ namespace Orange.HRM.TestHarness.Steps.Login
             if (errorMessageType.Equals(ErrorMessageType.UserNameEmpty))
             {
                 ObjReport.Info("Verify User Empty Error Message");
-                ObjLoginPage.Password.SendKeys(password);
-                ObjLoginPage.Login.Submit();
+                htmlTextBox.ClearAndSendKeys(ObjLoginPage.Password, password);
+                htmlButton.Submit(ObjLoginPage.Login);
                 WaitForErrorMessage();
                 Assert.AreEqual(ErrorMessageType.UserNameEmpty.GetDescription(), ObjLoginPage.ErrorMessage, "Error Message is not matched.");
             }
             if (errorMessageType.Equals(ErrorMessageType.PasswordEmpty))
             {
                 ObjReport.Info("Verify Password Empty Error Message");
-                ObjLoginPage.UserName.SendKeys(userName);
-                ObjLoginPage.Login.Submit();
+                htmlTextBox.ClearAndSendKeys(ObjLoginPage.UserName, userName);
+                htmlButton.Submit(ObjLoginPage.Login);
                 WaitForErrorMessage();
                 Assert.AreEqual(ErrorMessageType.PasswordEmpty.GetDescription(), ObjLoginPage.ErrorMessage, "Error Message is not matched.");
             }
             if (errorMessageType.Equals(ErrorMessageType.InvalidCredentials))
             {
                 ObjReport.Info("Verify Invalid Credentials Error Message");
-                ObjLoginPage.UserName.SendKeys(userName);
-                ObjLoginPage.Password.SendKeys(password);
-                ObjLoginPage.Login.Submit();
+                htmlTextBox.ClearAndSendKeys(ObjLoginPage.UserName, userName);
+                htmlTextBox.ClearAndSendKeys(ObjLoginPage.Password, password);
+                htmlButton.Submit(ObjLoginPage.Login);
                 WaitForErrorMessage();
                 Assert.AreEqual(ErrorMessageType.InvalidCredentials.GetDescription(), ObjLoginPage.ErrorMessage, "Error Message is not matched.");
             }

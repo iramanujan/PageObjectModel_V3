@@ -125,6 +125,10 @@ namespace Orange.HRM.Common.Configuration
         public string AutomationReportPath { get; private set; }
         [DataMember(EmitDefaultValue = false, Order = 19)]
         public string AutomationLogPath { get; private set; }
+        [DataMember(EmitDefaultValue = false, Order = 20)]
+        public string AutomationReportFolderName { get; private set; }
+        [DataMember(EmitDefaultValue = false, Order = 21)]
+        public string AutomationLogFolderName { get; private set; }
         #endregion
 
     }
