@@ -60,6 +60,10 @@ namespace Orange.HRM.Common.Handler.Browser
         [Description(@"var items = {}; for (index = 0; index < arguments[0].attributes.length; ++index) { items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value }; return items;")]
         GetAllAttribute = 11,
 
+
+        [Description(@"arguments[0].click();")]
+        Click = 12,
+
     }
 
     public enum AsyncScript

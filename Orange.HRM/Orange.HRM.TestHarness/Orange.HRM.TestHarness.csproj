@@ -100,10 +100,22 @@
     <Compile Include="Pages\BaseSetup\OrangeHrmBasePage.cs" />
     <Compile Include="Pages\Dashboard\DashboardPage.cs" />
     <Compile Include="Pages\Login\LoginPage.cs" />
+    <Compile Include="Pages\Qualifications\EducationPage.cs" />
+    <Compile Include="Pages\Qualifications\LanguagesPage.cs" />
+    <Compile Include="Pages\Qualifications\LicensesPage.cs" />
+    <Compile Include="Pages\Qualifications\MembershipsPage.cs" />
+    <Compile Include="Pages\Qualifications\SkillsPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\BaseSetup\OrangeHrmBaseSteps.cs" />
     <Compile Include="Steps\CommonValidation\Validation.cs" />
+    <Compile Include="Steps\Context\TestHarnessContext.cs" />
+    <Compile Include="Steps\Context\TestHarnessContextHelper.cs" />
     <Compile Include="Steps\Login\LoginStep.cs" />
+    <Compile Include="Steps\Qualifications\EducationStep.cs" />
+    <Compile Include="Steps\Qualifications\LanguagesStep.cs" />
+    <Compile Include="Steps\Qualifications\LicensesStep.cs" />
+    <Compile Include="Steps\Qualifications\MembershipsStep.cs" />
+    <Compile Include="Steps\Qualifications\SkillsStep.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

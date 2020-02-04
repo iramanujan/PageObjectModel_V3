@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using OpenQA.Selenium.Support.UI;
 using Orange.HRM.Common.Handler.Attributes;
 using Orange.HRM.Common.Handler.Log;
 using Orange.HRM.TestHarness.Pages.Dashboard;

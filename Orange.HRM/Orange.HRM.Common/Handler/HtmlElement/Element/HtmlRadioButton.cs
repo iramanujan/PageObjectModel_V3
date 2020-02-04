@@ -1,6 +1,4 @@
 ﻿using OpenQA.Selenium;
-using Orange.HRM.Common.Configuration;
-using Orange.HRM.Common.Context;
 
 
 namespace Orange.HRM.Common.Handler.HtmlElement.Element

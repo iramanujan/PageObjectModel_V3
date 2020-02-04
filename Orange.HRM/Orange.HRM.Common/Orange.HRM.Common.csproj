@@ -116,9 +116,6 @@
     <Compile Include="Configuration\ModuleCategory.cs" />
     <Compile Include="Configuration\PageCategory.cs" />
     <Compile Include="Configuration\TesCategory.cs" />
-    <Compile Include="Context\BrowserContext.cs" />
-    <Compile Include="Context\TestHarnessContext.cs" />
-    <Compile Include="Context\TestHarnessContextHelper.cs" />
     <Compile Include="Extensions\DirectoryExtensions.cs" />
     <Compile Include="Extensions\StringValueExtensions.cs" />
     <Compile Include="Handler\ActionEvent\KeyboardEvents.cs" />
@@ -127,6 +124,7 @@
     <Compile Include="Handler\Attributes\EnumAttribute.cs" />
     <Compile Include="Handler\Attributes\StringValueAttribute.cs" />
     <Compile Include="Handler\Browser\Browser.cs" />
+    <Compile Include="Handler\Browser\BrowserContext.cs" />
     <Compile Include="Handler\Browser\JavaScript.cs" />
     <Compile Include="Handler\Driver\Base\BaseDriverFactory.cs" />
     <Compile Include="Handler\Driver\Base\BaseLocalDriverFactory.cs" />

@@ -1,7 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using Orange.HRM.Common.Configuration;
-using Orange.HRM.Common.Context;
 using Orange.HRM.Common.Handler.Browser;
 using Orange.HRM.Common.Handler.Log;
 using System;
@@ -155,7 +154,7 @@ namespace Orange.HRM.Common.Handler.HtmlElement
             this.webElementFluentWait = new DefaultWait<IWebElement>(webElement);
             this.webElementFluentWait.Timeout = TimeSpan.FromSeconds(appConfigMember.ObjectTimeout);
             this.webElementFluentWait.PollingInterval = TimeSpan.FromMilliseconds(appConfigMember.PollingInterval);
-            this.webElementFluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
+            this.webElementFluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException), typeof(StaleElementReferenceException));
             Func<IWebElement, IWebElement> waiter = new Func<IWebElement, IWebElement>((IWebElement ele) =>
             {
                 if (webElement.Enabled & webElement.Displayed & webDriver.FindElement(by).Size.Width > 0 & webDriver.FindElement(by).Size.Height > 0)
@@ -235,5 +234,33 @@ namespace Orange.HRM.Common.Handler.HtmlElement
             return this.webDriver.FindElements(by)[elementIndex];
         }
 
+
+
+        public IWebElement ElementExists(By by)
+        {
+            IWebElement webElement = null;
+            int retry = 5;
+            do
+            {
+                try
+                {
+                    webElement = this.webDriver.FindElement(by);
+                    return webElement;
+                }
+                catch (OpenQA.Selenium.StaleElementReferenceException)
+                {
+                    if (retry == 0)
+                    {
+                        throw;
+                    }
+                }
+                catch (OpenQA.Selenium.WebDriverException)
+                {
+                    return webElement;
+                }
+                retry--;
+            } while (retry >= 0);
+            return webElement;
+        }
     }
 }

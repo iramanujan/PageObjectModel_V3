@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using Orange.HRM.Common.NUnit.Attributtes;
-using Orange.HRM.Test.BaseSetup;
 using Orange.HRM.TestHarness.Steps.Login;
 
 namespace Orange.HRM.Test.Login
@@ -41,7 +40,7 @@ namespace Orange.HRM.Test.Login
         [TearDown]
         public void TearDown()
         {
-          
+            myContext.Browser.CloseAllBrosr();
         }
     }
 }

@@ -6,6 +6,7 @@ using Orange.HRM.Common.Handler.Log;
 using Orange.HRM.Common.Helper;
 using Orange.HRM.Common.Wait;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -271,6 +272,7 @@ namespace Orange.HRM.Common.Handler.Browser
 
         public void CloseAllBrosr()
         {
+            CleanupCreatedDirectoriesSafely();
             Quit();
             switch (appConfigMember.Browser)
             {
@@ -304,6 +306,18 @@ namespace Orange.HRM.Common.Handler.Browser
             this.webDriver.Close();
         }
 
+        public void getJavaScriptConsoleLogs()
+        {
+            Logger.Info("====================================================");
+            Logger.Info("Browser Console logs Starts:-");
+            IReadOnlyCollection<LogEntry> logEntries = Manage().Logs.GetLog(LogType.Browser);
+            foreach (var logEntry in logEntries)
+            {
+                Logger.Info(logEntry.Timestamp + " - " + logEntry.Message);
+            }
+            Logger.Info("Browser Console logs Ends:-");
+            Logger.Info("====================================================");
+        }
         #endregion
 
         #region WindowHandle

@@ -1,6 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
-using Orange.HRM.Common.Context;
+using Orange.HRM.Common.Handler.Browser;
 
 namespace Orange.HRM.Common.Handler.ActionEvent
 {

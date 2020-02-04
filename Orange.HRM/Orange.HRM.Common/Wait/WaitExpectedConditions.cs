@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using Orange.HRM.Common.Configuration;
-using Orange.HRM.Common.Context;
+using Orange.HRM.Common.Handler.Browser;
 using System;
 using WebAutomation.Common.Wait;
 

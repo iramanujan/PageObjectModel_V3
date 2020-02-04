@@ -1,6 +1,6 @@
 ﻿using OpenQA.Selenium;
 using Orange.HRM.Common.Configuration;
-using Orange.HRM.Common.Context;
+using Orange.HRM.Common.Handler.Browser;
 using System;
 using System.Linq;
 using WebAutomation.Common.Wait;

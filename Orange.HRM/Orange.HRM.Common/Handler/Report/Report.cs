@@ -136,6 +136,7 @@ namespace WebAutomation.Common.GenericHelper.ReportHandler
             AdditionalInformation = "\n Additional Information:" + AdditionalInformation + "\n Exception Message:" + exceptionMessage + "\n Stack Trace:" + stackTrace;
             Logger.Error(textInfo.ToTitleCase(MessageText + "\n" + AdditionalInformation));
             test.Error(textInfo.ToTitleCase(MessageText + "\n" + AdditionalInformation), provider);
+            
         }
 
         public void Warning(string MessageText, string AdditionalInformation = "", bool IsScreenshot = true)
