@@ -10,11 +10,9 @@ namespace Orange.HRM.TestHarness.Pages.Qualifications
     public class EducationStep : OrangeHrmBaseSteps
     {
         EducationPage educationPage = null;
-        private Validation validation = null;
-        public EducationStep()
+        public EducationStep(Browser browser) :base(browser)
         {
-            this.educationPage = new EducationPage();
-            this.validation = new Validation();
+            this.educationPage = new EducationPage(browser);
         }
 
         public void NavigateToEducation()

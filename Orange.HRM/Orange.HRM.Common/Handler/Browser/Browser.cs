@@ -28,11 +28,11 @@ namespace Orange.HRM.Common.Handler.Browser
         #region Constructor
         public Browser(IWebDriverFactory webDriverFactory)
         {
+            KillBrowser();
             BackupReportAndLog();
             CleanupCreatedDirectoriesSafely();
             CreateUploadDwonloadDirectory();
             this.webDriverFactory = webDriverFactory;
-            ObjReport.ExtentReportsSetup();
             waitExpectedConditions = new WaitExpectedConditions(webDriver);
         }
 
@@ -272,8 +272,31 @@ namespace Orange.HRM.Common.Handler.Browser
 
         public void CloseAllBrosr()
         {
-            CleanupCreatedDirectoriesSafely();
             Quit();
+            switch (appConfigMember.Browser)
+            {
+                case BrowserType.IE:
+                    //Killing IE driver process if exists
+                    ProcessUtils.KillProcesses("iexplore");
+                    ProcessUtils.KillProcesses("IEDriverServer");
+                    break;
+                case BrowserType.Chrome:
+                    ProcessUtils.KillProcesses("chrome");
+                    ProcessUtils.KillProcesses("chromedriver");
+                    ProcessUtils.KillProcesses("chrome.exe");
+                    ProcessUtils.KillProcesses("chromedriver.exe");
+                    break;
+                case BrowserType.Firefox:
+                    ProcessUtils.KillProcesses("firefox.exe");
+                    ProcessUtils.KillProcesses("geckodriver.exe");
+                    ProcessUtils.KillProcesses("firefox");
+                    ProcessUtils.KillProcesses("geckodriver");
+                    break;
+            }
+        }
+
+        public void KillBrowser()
+        {
             switch (appConfigMember.Browser)
             {
                 case BrowserType.IE:
@@ -310,7 +333,7 @@ namespace Orange.HRM.Common.Handler.Browser
         {
             Logger.Info("====================================================");
             Logger.Info("Browser Console logs Starts:-");
-            IReadOnlyCollection<LogEntry> logEntries = Manage().Logs.GetLog(LogType.Browser);
+            var logEntries =  this.webDriver.Manage().Logs.GetLog(LogType.Browser);
             foreach (var logEntry in logEntries)
             {
                 Logger.Info(logEntry.Timestamp + " - " + logEntry.Message);

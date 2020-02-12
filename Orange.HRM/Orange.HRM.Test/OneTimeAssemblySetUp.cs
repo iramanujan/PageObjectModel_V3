@@ -18,6 +18,7 @@ namespace Orange.HRM.Test
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
+            ObjReport.ExtentReportsSetup();
         }
 
         [OneTimeTearDown]

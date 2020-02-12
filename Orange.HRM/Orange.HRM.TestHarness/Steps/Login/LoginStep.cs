@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
 using Orange.HRM.Common.Handler.Attributes;
+using Orange.HRM.Common.Handler.Browser;
 using Orange.HRM.Common.Handler.Log;
 using Orange.HRM.TestHarness.Pages.Dashboard;
 using Orange.HRM.TestHarness.Pages.Login;
 using Orange.HRM.TestHarness.Steps.BaseSetup;
-using Orange.HRM.TestHarness.Steps.CommonValidation;
 using System;
 using WebAutomation.Common.Wait;
 using DescriptionAttribute = System.ComponentModel.DescriptionAttribute;
@@ -15,13 +15,11 @@ namespace Orange.HRM.TestHarness.Steps.Login
     {
         private LoginPage ObjLoginPage = null;
         private DashboardPage dashboardPage = null;
-        private Validation validation = null;
 
-        public LoginStep() : base()
+        public LoginStep(Browser browser) : base(browser)
         {
-            ObjLoginPage = new LoginPage();
-            dashboardPage = new DashboardPage();
-            validation = new Validation();
+            ObjLoginPage = new LoginPage(browser);
+            dashboardPage = new DashboardPage(browser);
         }
         public enum ErrorMessageType
         {
@@ -34,6 +32,14 @@ namespace Orange.HRM.TestHarness.Steps.Login
             [Description("Invalid credentials")]
             InvalidCredentials = 2
         }
+
+        public void OpenOrangeHrm()
+        {
+            browser.InitBrowser(appConfigMember.Url);
+            browser.WaitTillAjaxLoad(browser.webDriver);
+            browser.WaitTillPageLoad(browser.webDriver);
+        }
+
         public void LoginOrangeHRM(string userName, string password)
         {
             ObjReport.Info("Verify Page Url and Text before Login");

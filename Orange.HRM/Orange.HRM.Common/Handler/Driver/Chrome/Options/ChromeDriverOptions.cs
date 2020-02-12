@@ -1,5 +1,6 @@
 ﻿using Orange.HRM.Common.Configuration;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium;
 
 namespace WebDriverHelper.DriverFactory.Chrome.Options
 {
@@ -25,8 +26,7 @@ namespace WebDriverHelper.DriverFactory.Chrome.Options
             options.AddArgument("disable-infobars");
             options.AddExcludedArgument("enable-automation");
             options.AddAdditionalCapability("useAutomationExtension", false);
-
-
+            options.SetLoggingPreference(LogType.Browser, LogLevel.All);
             ////
             ///https://peter.sh/experiments/chromium-command-line-switches/
             ///

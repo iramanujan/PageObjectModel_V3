@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using Orange.HRM.Common.Handler.Browser;
 using Orange.HRM.Common.Handler.HtmlElement;
 using Orange.HRM.Common.Handler.Log;
 using Orange.HRM.TestHarness.Pages.BaseSetup;
@@ -12,6 +13,10 @@ namespace Orange.HRM.TestHarness.Pages.Qualifications
 
     public class EducationPage : OrangeHrmBasePage
     {
+        public EducationPage(Browser browser) : base(browser)
+        {
+
+        }
         public enum OrderBy
         {
             [Description("Ascending")]

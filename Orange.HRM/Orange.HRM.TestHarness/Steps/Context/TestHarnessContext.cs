@@ -2,6 +2,7 @@
 using Orange.HRM.Common.Handler.Browser;
 using Orange.HRM.Common.Handler.Driver.Intrface;
 using Orange.HRM.TestHarness.Steps.BaseSetup;
+using Orange.HRM.TestHarness.Utils;
 using WebDriverHelper.DriverFactory;
 
 namespace Orange.HRM.TestHarness.Steps.Context
@@ -13,20 +14,23 @@ namespace Orange.HRM.TestHarness.Steps.Context
 
         public TestHarnessContext(IWebDriverFactory factory)
         {
-            this.Browser = new Browser(factory);
-            if (BrowserContext.browser == null)
+            if(this.Browser == null)
             {
-                BrowserContext.browser = this.Browser;
+                this.Browser = new Browser(factory);
+                if (BrowserContext.browser == null)
+                {
+                    BrowserContext.browser = this.Browser;
+                }
             }
-        }
-
-        public OrangeHrmBaseSteps GetOrangeHrmBaseSteps()
-        {
-            return new OrangeHrmBaseSteps(Browser);
         }
 
         public TestHarnessContext() : this(WebDriverType.Get(appConfigMember.Browser, appConfigMember.ExecutionType).Factory)
         {
+        }
+
+        public OrangeHrmSteps GetOrangeHrmSteps<OrangeHrmSteps>(params object[] additionalArgs) where OrangeHrmSteps : OrangeHrmBaseSteps
+        {
+            return CreateObjectUtils.CreateOrangeHrmSteps<OrangeHrmSteps>(Browser, additionalArgs);
         }
 
     }

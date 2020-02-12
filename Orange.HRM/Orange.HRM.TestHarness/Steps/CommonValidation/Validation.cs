@@ -2,13 +2,14 @@
 using Orange.HRM.Common.Handler.Browser;
 using Orange.HRM.TestHarness.Steps.BaseSetup;
 using System;
+using WebAutomation.Common.GenericHelper.ReportHandler;
 using WebAutomation.Common.Wait;
 
 namespace Orange.HRM.TestHarness.Steps.CommonValidation
 {
     public class Validation
     {
-
+        private Report ObjReport => Report.ReportInstance;
         private Browser browser = null;
         private IWebDriver webDriver = null;
         public Validation(Browser browser)

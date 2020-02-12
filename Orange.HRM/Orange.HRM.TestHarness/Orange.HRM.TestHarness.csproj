@@ -116,6 +116,7 @@
     <Compile Include="Steps\Qualifications\LicensesStep.cs" />
     <Compile Include="Steps\Qualifications\MembershipsStep.cs" />
     <Compile Include="Steps\Qualifications\SkillsStep.cs" />
+    <Compile Include="Utils\CreateObjectUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
